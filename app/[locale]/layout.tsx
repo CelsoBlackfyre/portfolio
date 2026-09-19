@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { profile } from "@/content/profile";
 import { getDictionary } from "@/lib/dictionary";
 import { LOCALES, LOCALE_TAG, toLocale } from "@/lib/locales";
+import { pageMetadata, siteUrl } from "@/lib/metadata";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -25,8 +26,6 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
 }
@@ -40,7 +39,8 @@ export async function generateMetadata({
   const dict = getDictionary(locale);
 
   return {
-    ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
+    ...pageMetadata({ locale, title: dict.meta.title, description: dict.meta.description }),
+    metadataBase: siteUrl,
     title: {
       default: dict.meta.title,
       template: `%s · ${profile.name}`,
@@ -59,27 +59,6 @@ export async function generateMetadata({
       "PostgreSQL",
       "Belo Horizonte",
     ],
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        en: "/en",
-        pt: "/pt",
-        "x-default": "/en",
-      },
-    },
-    openGraph: {
-      type: "website",
-      title: dict.meta.title,
-      description: dict.meta.description,
-      siteName: profile.name,
-      locale: LOCALE_TAG[locale],
-      url: `/${locale}`,
-    },
-    twitter: {
-      card: "summary",
-      title: dict.meta.title,
-      description: dict.meta.description,
-    },
   };
 }
 

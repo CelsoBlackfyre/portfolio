@@ -3,6 +3,7 @@ import { FactList, Label, Rise, StatusPill } from "@/components/primitives";
 import { profile } from "@/content/profile";
 import { getDictionary } from "@/lib/dictionary";
 import { toLocale } from "@/lib/locales";
+import { pageMetadata } from "@/lib/metadata";
 
 export async function generateMetadata({
   params,
@@ -11,7 +12,7 @@ export async function generateMetadata({
 }) {
   const locale = toLocale((await params).locale);
   const dict = getDictionary(locale);
-  return { title: dict.nav.contact, description: dict.contact.lede };
+  return pageMetadata({ locale, path: "/contact", title: dict.nav.contact, description: dict.contact.lede });
 }
 
 export default async function ContactPage({

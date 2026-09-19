@@ -1,12 +1,84 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeftIcon, ArrowRightIcon, CheckIcon } from "@/components/icons";
 import { ChipList, Label, Rise, Section } from "@/components/primitives";
 import { ProjectVisual } from "@/components/project-visual";
+import { Reveal } from "@/components/reveal";
 import { neighbours, projects } from "@/content/archive";
 import { getDictionary } from "@/lib/dictionary";
 import { localePath, toLocale } from "@/lib/locales";
+import { pageMetadata } from "@/lib/metadata";
 import { loc } from "@/lib/types";
+
+const blackframeWalkthrough = [
+  {
+    src: "/work/blackframe/01-home-feed.png",
+    title: {
+      en: "01 / Visual Feed & Social Timeline",
+      pt: "01 / Feed Visual & Linha do Tempo",
+    },
+    description: {
+      en: "Monochrome-first social surface with real-time reaction counts, story rails, and clean metadata hierarchy.",
+      pt: "Superfície social monocromática com contagens em tempo real, trilha de histórias e hierarquia limpa de metadados.",
+    },
+  },
+  {
+    src: "/work/blackframe/02-pulse-conversations.png",
+    title: {
+      en: "02 / Real-Time Pulse Conversations",
+      pt: "02 / Conversas Pulse em Tempo Real",
+    },
+    description: {
+      en: "Threaded audio-visual conversation flow with instant message delivery and tactile engagement states.",
+      pt: "Fluxo de conversas áudio-visuais com entrega instantânea de mensagens e estados táteis de engajamento.",
+    },
+  },
+  {
+    src: "/work/blackframe/03-geek-shelf.png",
+    title: {
+      en: "03 / Geek Shelf Hardware Inventory",
+      pt: "03 / Geek Shelf e Inventário de Hardware",
+    },
+    description: {
+      en: "Catalog of mechanical keyboards, custom audio gear, and developer workstation rigs with spec sheets.",
+      pt: "Catálogo de teclados mecânicos, equipamentos de áudio e setups com fichas técnicas detalhadas.",
+    },
+  },
+  {
+    src: "/work/blackframe/04-shelf-match.png",
+    title: {
+      en: "04 / Interactive Shelf Match",
+      pt: "04 / Comparador e Match de Setup",
+    },
+    description: {
+      en: "Algorithmic hardware pairing engine comparing audio, switch, and ergonomic setups across creators.",
+      pt: "Mecanismo de pareamento algorítmico comparando áudio, switches e ergonomia entre criadores.",
+    },
+  },
+  {
+    src: "/work/blackframe/08-direct-messages.png",
+    title: {
+      en: "05 / Direct Messaging System",
+      pt: "05 / Sistema de Mensagens Diretas",
+    },
+    description: {
+      en: "Real-time chat with optimistic UI updates, presence indicators, and rich inline media attachments.",
+      pt: "Chat em tempo real com atualizações otimistas de interface, indicadores de presença e anexos de mídia.",
+    },
+  },
+  {
+    src: "/work/blackframe/09-create-post.png",
+    title: {
+      en: "06 / Multi-Format Composer",
+      pt: "06 / Compositor Multiformato",
+    },
+    description: {
+      en: "Fluid creation drawer supporting photo aspect ratios, hardware tagging, and markdown captions.",
+      pt: "Gaveta fluida de criação com suporte a aspect ratios fotográficos, marcação de hardware e legendas.",
+    },
+  },
+];
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -19,28 +91,18 @@ export async function generateMetadata({
 }) {
   const { locale: rawLocale, slug } = await params;
   const locale = toLocale(rawLocale);
-  const dict = getDictionary(locale);
   const project = projects.find((item) => item.slug === slug);
 
-  if (!project) return { title: dict.labels.caseStudy };
+  if (!project) notFound();
 
-  return {
+  return pageMetadata({
+    locale,
+    path: `/work/${project.slug}`,
     title: project.name,
     description: loc(project.tagline, locale),
-    alternates: {
-      canonical: `/${locale}/work/${project.slug}`,
-      languages: {
-        en: `/en/work/${project.slug}`,
-        pt: `/pt/work/${project.slug}`,
-      },
-    },
-    openGraph: {
-      type: "article",
-      title: `${project.name}, ${dict.labels.caseStudy}`,
-      description: loc(project.tagline, locale),
-      url: `/${locale}/work/${project.slug}`,
-    },
-  };
+    type: "article",
+    projectImage: true,
+  });
 }
 
 export default async function ProjectPage({
@@ -160,6 +222,51 @@ export default async function ProjectPage({
           </ol>
         </div>
       </Section>
+
+      {project.slug === "blackframe" ? (
+        <Section className="border-t border-line py-16! sm:py-20!">
+          <div className="container-page">
+            <Reveal>
+              <h2 className="display-tight text-2xl text-fg sm:text-3xl">
+                {locale === "pt"
+                  ? "Arquitetura de Interface & Fluxos Principais"
+                  : "Interface Architecture & Key Flows"}
+              </h2>
+              <p className="lede mt-3 max-w-[64ch] text-sm sm:text-base">
+                {locale === "pt"
+                  ? "Capturas em alta resolução do produto rodando em ambiente local com dados reais, estados de interação e paleta de alto contraste."
+                  : "High-resolution captures of the live application running in local development with real state, interaction details, and high-contrast styling."}
+              </p>
+            </Reveal>
+
+            <div className="gallery-grid mt-12">
+              {blackframeWalkthrough.map((item, index) => (
+                <Reveal key={item.src} delay={(index % 2) * 60}>
+                  <figure className="gallery-card">
+                    <div className="gallery-image-wrap">
+                      <Image
+                        src={item.src}
+                        alt={loc(item.title, locale)}
+                        width={1280}
+                        height={800}
+                        sizes="(min-width: 1024px) 640px, 95vw"
+                        loading="eager"
+                        className="gallery-image"
+                      />
+                    </div>
+                    <figcaption className="gallery-caption">
+                      <h3 className="text-base font-medium text-fg">{loc(item.title, locale)}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted">
+                        {loc(item.description, locale)}
+                      </p>
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </Section>
+      ) : null}
 
       <Section className="border-t border-line py-16! sm:py-20!">
         <div className="container-page">

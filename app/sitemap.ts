@@ -1,22 +1,19 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/content/archive";
-import { LOCALES } from "@/lib/locales";
+import { LOCALES, LOCALE_TAG } from "@/lib/locales";
+import { absoluteUrl } from "@/lib/metadata";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3210";
-  const lastModified = new Date();
-
   const pages = ["", "/work", "/about", "/contact"];
 
   const staticRoutes: MetadataRoute.Sitemap = LOCALES.flatMap((locale) =>
     pages.map((page) => ({
-      url: `${base}/${locale}${page}`,
-      lastModified,
+      url: absoluteUrl(`/${locale}${page}`),
       changeFrequency: page === "" ? "weekly" : "monthly",
       priority: page === "" ? 1 : 0.8,
       alternates: {
         languages: Object.fromEntries(
-          LOCALES.map((option) => [option, `${base}/${option}${page}`]),
+          LOCALES.map((option) => [LOCALE_TAG[option], absoluteUrl(`/${option}${page}`)]),
         ),
       },
     })),
@@ -24,15 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const projectRoutes: MetadataRoute.Sitemap = LOCALES.flatMap((locale) =>
     projects.map((project) => ({
-      url: `${base}/${locale}/work/${project.slug}`,
-      lastModified,
+      url: absoluteUrl(`/${locale}/work/${project.slug}`),
       changeFrequency: "yearly",
       priority: 0.7,
       alternates: {
         languages: Object.fromEntries(
           LOCALES.map((option) => [
-            option,
-            `${base}/${option}/work/${project.slug}`,
+            LOCALE_TAG[option],
+            absoluteUrl(`/${option}/work/${project.slug}`),
           ]),
         ),
       },

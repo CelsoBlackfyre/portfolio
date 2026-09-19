@@ -1,208 +1,104 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRightIcon } from "@/components/icons";
-import {
-  Label,
-  RichHeadline,
-  Rise,
-  Section,
-  SectionHeading,
-  StatusPill,
-} from "@/components/primitives";
-import { FeaturedProject, ProjectTile } from "@/components/project-card";
-import { RepoList } from "@/components/repo-list";
+import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
+import { RichHeadline, Rise, Section, SectionHeading, StatusPill } from "@/components/primitives";
+import { ProjectTile } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
+import { StackExplorer } from "@/components/stack-explorer";
 import { projects } from "@/content/archive";
-import type { Project } from "@/content/projects";
-import { githubStats, profile, toolkit } from "@/content/profile";
-import { repos } from "@/content/repos";
+import { profile, toolkit } from "@/content/profile";
 import { getDictionary } from "@/lib/dictionary";
 import { localePath, toLocale } from "@/lib/locales";
 import { loc } from "@/lib/types";
 
-const tileSlugs = ["cucaforms", "blackframe", "tenda", "arena"];
-
-export default async function HomePage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const locale = toLocale((await params).locale);
   const dict = getDictionary(locale);
-
-  const [featured] = projects;
-  const tiles = tileSlugs
-    .map((slug) => projects.find((project) => project.slug === slug))
-    .filter((project): project is Project => Boolean(project));
-
-  const featuredRepos = repos.slice(0, 6).map((repo) => ({
-    name: repo.name,
-    href: repo.href,
-    language: repo.language,
-    live: repo.live,
-    description: loc(repo.description, locale),
-  }));
+  const pt = locale === "pt";
+  const featured = projects.find((project) => project.slug === "blackframe")!;
+  const selected = ["jupiter", "cucaforms", "tenda", "arena"].map((slug) => projects.find((project) => project.slug === slug)!);
 
   return (
     <>
-      <section className="pt-14 pb-14 sm:pt-20 sm:pb-16">
-        <div className="container-page">
-          <Rise>
-            <StatusPill label={dict.home.availability} />
-          </Rise>
-
-          <Rise delay={70}>
-            <h1 className="display mt-8 text-[2.5rem] sm:text-6xl lg:text-7xl">
-              {dict.home.title.map((line, index) => (
-                <span key={index} className="block">
-                  <RichHeadline line={line} />
-                </span>
-              ))}
-            </h1>
-          </Rise>
-
-          <Rise delay={140}>
-            <p className="lede mt-7 max-w-[54ch] text-base sm:text-lg">{dict.home.lede}</p>
-          </Rise>
-
-          <Rise delay={210}>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Link href={localePath(locale, "/work")} className="btn btn-primary">
-                {dict.actions.viewWork}
-                <ArrowRightIcon className="h-4 w-4" />
-              </Link>
-              <Link href={localePath(locale, "/about")} className="btn btn-ghost">
-                {dict.actions.aboutMe}
-              </Link>
-            </div>
-          </Rise>
+      <section className="hero-section">
+        <div className="container-page hero-grid">
+          <div className="hero-copy">
+            <Rise><StatusPill label={dict.home.availability} /></Rise>
+            <Rise delay={70}>
+              <h1 className="display hero-title">
+                {dict.home.title.map((line, index) => <span key={index} className="block"><RichHeadline line={line} /></span>)}
+              </h1>
+            </Rise>
+            <Rise delay={140}><p className="lede hero-lede">{dict.home.lede}</p></Rise>
+            <Rise delay={210}>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href={localePath(locale, "/work")} className="btn btn-primary">{dict.actions.viewWork}<ArrowRightIcon className="h-4 w-4" /></Link>
+                <Link href={localePath(locale, "/about")} className="btn btn-ghost">{dict.actions.aboutMe}</Link>
+              </div>
+            </Rise>
+          </div>
+          <div className="hero-art rise" aria-hidden="true">
+            <Image src="/images/engineering-sculpture.webp" alt="" fill preload sizes="(min-width: 1024px) 48vw, (min-width: 768px) 42vw, 90vw" className="hero-sculpture object-cover" />
+          </div>
         </div>
       </section>
 
-      <section className="border-y border-line">
-        <div className="container-page grid grid-cols-2 gap-y-9 py-10 sm:grid-cols-4 sm:py-12">
-          {dict.home.proof.map((item) => (
-            <div key={item.label}>
-              <p className="display text-3xl text-fg sm:text-4xl">{item.value}</p>
-              <p className="label mt-2.5">{item.label}</p>
-            </div>
-          ))}
+      <section className="proof-section" aria-label={pt ? "Experiência em números" : "Experience in numbers"}>
+        <div className="container-page proof-grid">
+          {dict.home.proof.map((item) => <div key={item.label} className="proof-item"><p className="display proof-value">{item.value}</p><p className="text-sm text-muted">{item.label}</p></div>)}
         </div>
       </section>
 
-      <Section className="border-b border-line">
+      <Section>
         <div className="container-page">
-          <SectionHeading
-            title={dict.home.work.title}
-            lede={dict.home.work.lede}
-            id="work"
-          />
-
-          <Reveal className="mt-16">
-            <FeaturedProject
-              project={featured}
-              locale={locale}
-              cta={dict.actions.viewCaseStudy}
-              priority
-            />
+          <SectionHeading title={dict.home.work.title} lede={dict.home.work.lede} id="work" />
+          <Reveal className="mt-12">
+            <article className="featured-showcase group">
+              <Link href={localePath(locale, "/work/blackframe")} className="featured-screen" aria-label={`${featured.name}, ${dict.actions.viewCaseStudy}`}>
+                <Image src="/work/blackframe/01-home-feed.png" alt={pt ? "Interface do BlackFrame com feed visual, publicações e navegação" : "BlackFrame interface with its visual feed, posts, and navigation"} width={1440} height={1100} sizes="(min-width: 1280px) 1100px, 95vw" className="featured-screenshot" />
+              </Link>
+              <div className="featured-caption">
+                <div><p className="text-sm text-muted">{loc(featured.kind, locale)}</p><h3 className="display mt-3 text-4xl sm:text-5xl">{featured.name}</h3></div>
+                <p className="text-sm leading-relaxed text-muted max-w-sm">{loc(featured.tagline, locale)}</p>
+                <Link href={localePath(locale, "/work/blackframe")} className="project-open" aria-label={`${featured.name}, ${dict.actions.viewCaseStudy}`}><ArrowUpRightIcon className="h-6 w-6" /></Link>
+              </div>
+            </article>
           </Reveal>
-
-          <div className="mt-16 grid gap-x-10 gap-y-14 sm:grid-cols-2">
-            {tiles.map((project) => (
-              <Reveal key={project.slug}>
-                <ProjectTile project={project} locale={locale} cta={dict.actions.viewCaseStudy} />
-              </Reveal>
-            ))}
+          <div className="selected-grid mt-16">
+            {selected.map((project) => <Reveal key={project.slug}><ProjectTile project={project} locale={locale} cta={dict.actions.viewCaseStudy} /></Reveal>)}
           </div>
+          <Reveal className="mt-12"><Link href={localePath(locale, "/work")} className="btn btn-ghost">{dict.actions.viewWork}<ArrowRightIcon className="h-4 w-4" /></Link></Reveal>
         </div>
       </Section>
 
-      <Section className="border-b border-line">
-        <div className="container-page grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
-          <div>
-            <SectionHeading title={dict.home.about.title} />
-            <div className="prose-block mt-8 max-w-[62ch]">
-              {dict.home.about.body.map((paragraph) => (
-                <p key={paragraph} className="lede text-[0.9375rem] sm:text-base">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <Reveal delay={80}>
-            <figure className="border-l border-line pl-6">
-              <blockquote className="display-tight text-2xl text-fg">
-                {dict.home.about.quote}
-              </blockquote>
-              <figcaption className="label mt-4">{dict.home.about.quoteSource}</figcaption>
-            </figure>
-
-            <dl className="mt-10 grid grid-cols-2 gap-x-8">
-              <div>
-                <dt className="label">{dict.about.facts[2].label}</dt>
-                <dd className="display mt-2.5 text-3xl text-fg">
-                  {githubStats.firstRepositoryYear}
-                </dd>
-              </div>
-              <div>
-                <dt className="label">{dict.labels.repositoryMany}</dt>
-                <dd className="display mt-2.5 text-3xl text-fg">
-                  {githubStats.publicRepositories}
-                </dd>
-              </div>
-            </dl>
-          </Reveal>
-        </div>
-      </Section>
-
-      <Section className="border-b border-line">
-        <div className="container-page">
-          <SectionHeading title={dict.home.toolkit.title} lede={dict.home.toolkit.lede} />
-
-          <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {toolkit.map((group, index) => (
-              <Reveal key={group.label.en} delay={index * 50}>
-                <Label>{loc(group.label, locale)}</Label>
-                <ul className="mt-5 space-y-2.5">
-                  {group.items.map((item) => (
-                    <li key={item} className="text-sm text-muted">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            ))}
+      <Section className="about-section">
+        <div className="container-page about-grid">
+          <Reveal><p className="label">{pt ? "Além da interface" : "Beyond the interface"}</p><h2 className="display-tight mt-6 text-4xl sm:text-5xl">{pt ? "Cada camada importa." : "Every layer matters."}</h2><Link href={localePath(locale, "/about")} className="mt-8 inline-flex items-center gap-3 text-sm text-ember-bright link-underline">{dict.actions.aboutMe}<ArrowUpRightIcon className="h-4 w-4" /></Link></Reveal>
+          <div className="engineering-principles">
+            {(pt ? [
+              ["Interfaces que fazem sentido", "Do primeiro clique ao celular de 380px. React, contratos tipados e atenção ao que a pessoa precisa fazer."],
+              ["Servidores que sustentam o produto", "Estado em tempo real, regras de negócio e permissões verificadas onde a verdade precisa estar."],
+              ["Dados que sobrevivem ao deploy", "Constraints, migrations aditivas e testes que protegem o que não pode ser perdido."],
+            ] : [
+              ["Interfaces that make sense", "From the first click to a 380px phone. React, typed contracts, and attention to what someone needs to do."],
+              ["Servers that hold their ground", "Real-time state, business rules, and permissions verified where the source of truth belongs."],
+              ["Data that outlives the deploy", "Constraints, additive migrations, and tests that protect what cannot be lost."],
+            ]).map(([title, body], index) => <Reveal key={title} delay={index * 65}><div className="principle"><h3 className="display-tight text-xl sm:text-2xl">{title}</h3><p className="mt-3 text-sm leading-relaxed text-muted">{body}</p></div></Reveal>)}
           </div>
         </div>
       </Section>
 
       <Section>
         <div className="container-page">
-          <SectionHeading title={dict.home.github.title} lede={dict.home.github.lede} />
+          <SectionHeading title={dict.home.toolkit.title} lede={pt ? "Explore a stack e veja onde cada tecnologia entra no trabalho." : "Explore the stack and see where each technology shows up in the work."} />
+          <div className="mt-12"><StackExplorer locale={locale} groups={toolkit.map((group) => ({ label: loc(group.label, locale), items: group.items }))} projects={projects.map((project) => ({ name: project.name, href: localePath(locale, `/work/${project.slug}`), stack: project.stack }))} /></div>
+        </div>
+      </Section>
 
-          <Reveal className="mt-14">
-            <RepoList
-              items={featuredRepos}
-              liveLabel={dict.labels.live}
-              openLabel={dict.a11y.openInNewTab}
-            />
-          </Reveal>
-
-          <Reveal delay={60}>
-            <p className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted">
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="link-underline text-fg"
-              >
-                @{profile.handle}
-              </a>
-              <span>
-                {githubStats.publicRepositories} {dict.labels.repositoryMany}
-              </span>
-            </p>
-          </Reveal>
+      <Section className="open-source-section">
+        <div className="container-page open-source-grid">
+          <Reveal><h2 className="display-tight text-3xl sm:text-4xl">{dict.home.github.title}</h2><p className="lede mt-5 max-w-lg">{dict.home.github.lede}</p></Reveal>
+          <Reveal delay={80} className="flex flex-col items-start gap-5"><Link href={localePath(locale, "/work#repositories")} className="btn btn-primary">{pt ? "Explorar repositórios" : "Explore repositories"}<ArrowRightIcon className="h-4 w-4" /></Link><a href={profile.github} target="_blank" rel="noreferrer noopener" className="text-sm text-muted link-underline">@{profile.handle}<span className="sr-only"> ({dict.a11y.openInNewTab})</span></a></Reveal>
         </div>
       </Section>
     </>

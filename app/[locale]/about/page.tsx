@@ -7,6 +7,7 @@ import { githubStats, languageStats, professional, toolkit } from "@/content/pro
 import { repos } from "@/content/repos";
 import { getDictionary } from "@/lib/dictionary";
 import { localePath, toLocale } from "@/lib/locales";
+import { pageMetadata } from "@/lib/metadata";
 import { loc } from "@/lib/types";
 
 export async function generateMetadata({
@@ -16,7 +17,7 @@ export async function generateMetadata({
 }) {
   const locale = toLocale((await params).locale);
   const dict = getDictionary(locale);
-  return { title: dict.nav.about, description: dict.about.lede };
+  return pageMetadata({ locale, path: "/about", title: dict.nav.about, description: dict.about.lede });
 }
 
 export default async function AboutPage({
