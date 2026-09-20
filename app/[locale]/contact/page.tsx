@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowUpRightIcon, EnvelopeIcon, GitHubIcon, MapPinIcon } from "@/components/icons";
 import { FactList, Label, Rise, StatusPill } from "@/components/primitives";
 import { profile } from "@/content/profile";
@@ -76,6 +77,21 @@ export default async function ContactPage({
 
         <div className="mt-16 grid gap-14 lg:grid-cols-[0.42fr_0.58fr] lg:gap-20">
           <Rise>
+            <div className="mb-6 flex items-center gap-3.5">
+              <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-line-strong bg-ink p-0.5 shadow-md">
+                <Image
+                  src={profile.avatar}
+                  alt={profile.name}
+                  width={48}
+                  height={48}
+                  className="h-full w-full rounded-[0.625rem] object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-fg">{profile.name}</p>
+                <p className="font-mono text-xs text-muted">{profile.location[locale]}</p>
+              </div>
+            </div>
             <Label>{dict.contact.availabilityTitle}</Label>
             <p className="lede mt-4 text-[0.9375rem]">{dict.contact.availabilityBody}</p>
             <p className="mt-8 flex items-center gap-2.5 text-sm text-muted">

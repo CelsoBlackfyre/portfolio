@@ -6,7 +6,7 @@ import { ProjectTile } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { StackExplorer } from "@/components/stack-explorer";
 import { projects } from "@/content/archive";
-import { profile, toolkit } from "@/content/profile";
+import { professional, profile, toolkit } from "@/content/profile";
 import { getDictionary } from "@/lib/dictionary";
 import { localePath, toLocale } from "@/lib/locales";
 import { loc } from "@/lib/types";
@@ -23,7 +23,20 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section className="hero-section">
         <div className="container-page hero-grid">
           <div className="hero-copy">
-            <Rise><StatusPill label={dict.home.availability} /></Rise>
+            <Rise>
+              <div className="flex items-center gap-3">
+                <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full border border-line-strong ring-1 ring-ember/30">
+                  <Image
+                    src={profile.avatar}
+                    alt={profile.name}
+                    width={28}
+                    height={28}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <StatusPill label={dict.home.availability} />
+              </div>
+            </Rise>
             <Rise delay={70}>
               <h1 className="display hero-title">
                 {dict.home.title.map((line, index) => <span key={index} className="block"><RichHeadline line={line} /></span>)}
@@ -73,7 +86,25 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       <Section className="about-section">
         <div className="container-page about-grid">
-          <Reveal><p className="label">{pt ? "Além da interface" : "Beyond the interface"}</p><h2 className="display-tight mt-6 text-4xl sm:text-5xl">{pt ? "Cada camada importa." : "Every layer matters."}</h2><Link href={localePath(locale, "/about")} className="mt-8 inline-flex items-center gap-3 text-sm text-ember-bright link-underline">{dict.actions.aboutMe}<ArrowUpRightIcon className="h-4 w-4" /></Link></Reveal>
+          <Reveal>
+            <div className="mb-6 flex items-center gap-4">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-line-strong bg-ink p-0.5 shadow-lg">
+                <Image
+                  src={profile.avatar}
+                  alt={profile.name}
+                  width={64}
+                  height={64}
+                  className="h-full w-full rounded-[0.875rem] object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-base font-medium text-fg">{profile.name}</p>
+                <p className="font-mono text-xs text-muted">
+                  {loc(profile.location, locale)} · {loc(professional.focus, locale)}
+                </p>
+              </div>
+            </div>
+            <p className="label">{pt ? "Além da interface" : "Beyond the interface"}</p><h2 className="display-tight mt-6 text-4xl sm:text-5xl">{pt ? "Cada camada importa." : "Every layer matters."}</h2><Link href={localePath(locale, "/about")} className="mt-8 inline-flex items-center gap-3 text-sm text-ember-bright link-underline">{dict.actions.aboutMe}<ArrowUpRightIcon className="h-4 w-4" /></Link></Reveal>
           <div className="engineering-principles">
             {(pt ? [
               ["Interfaces que fazem sentido", "Do primeiro clique ao celular de 380px. React, contratos tipados e atenção ao que a pessoa precisa fazer."],

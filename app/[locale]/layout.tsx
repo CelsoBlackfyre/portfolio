@@ -96,6 +96,7 @@ export default async function LocaleLayout({
           name={profile.name}
           role={dict.meta.role}
           initials={profile.initials}
+          avatar={profile.avatar}
           github={profile.github}
           nav={[
             { label: dict.nav.work, path: "/work" },

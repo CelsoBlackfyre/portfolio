@@ -1,9 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon, SparkIcon } from "@/components/icons";
 import { Label, Rise, Section, SectionHeading } from "@/components/primitives";
 import { RepoList } from "@/components/repo-list";
 import { Reveal } from "@/components/reveal";
-import { githubStats, languageStats, professional, toolkit } from "@/content/profile";
+import { githubStats, languageStats, professional, profile, toolkit } from "@/content/profile";
 import { repos } from "@/content/repos";
 import { getDictionary } from "@/lib/dictionary";
 import { localePath, toLocale } from "@/lib/locales";
@@ -58,6 +59,29 @@ export default async function AboutPage({
         <div className="container-page grid gap-14 lg:grid-cols-[0.38fr_0.62fr] lg:gap-20">
           <Reveal>
             <div className="lg:sticky lg:top-28">
+              <div className="relative mb-8 overflow-hidden rounded-2xl border border-line-strong bg-ink p-2 shadow-2xl shadow-black/40">
+                <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-void">
+                  <Image
+                    src={profile.avatar}
+                    alt={profile.name}
+                    width={640}
+                    height={640}
+                    priority
+                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/85 via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                    <span className="font-mono text-xs text-fg/90 bg-void/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-line">
+                      {profile.name}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-[0.6875rem] font-mono text-emerald-400 bg-void/80 backdrop-blur-md px-2 py-1 rounded-md border border-line">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      {loc(profile.location, locale)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               <Label>{dict.about.factsTitle}</Label>
               <dl className="mt-6 grid gap-5">
                 {professional.employer ? (

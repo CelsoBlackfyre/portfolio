@@ -4,6 +4,7 @@ export const profile = {
   name: "Celso Martins",
   handle: "CelsoBlackfyre",
   initials: "CM",
+  avatar: "/images/celso-martins.jpg",
   location: {
     en: "Belo Horizonte, Brazil",
     pt: "Belo Horizonte, Brasil",

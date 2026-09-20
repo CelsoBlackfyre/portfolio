@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ export function SiteHeader({
   name,
   role,
   initials,
+  avatar,
   nav,
   labels,
   github,
@@ -22,6 +24,7 @@ export function SiteHeader({
   name: string;
   role: string;
   initials: string;
+  avatar?: string;
   nav: NavItem[];
   labels: {
     menu: string;
@@ -67,16 +70,28 @@ export function SiteHeader({
           className="group flex items-center gap-3"
           aria-label={`${name}, ${role}`}
         >
-          <span
-            aria-hidden="true"
-            className="grid h-9 w-9 place-items-center rounded-xl border border-line-strong font-mono text-[0.7rem] tracking-[0.06em] text-fg transition-colors duration-300 group-hover:border-ember/70 group-hover:text-ember-bright"
-            style={{
-              backgroundImage:
-                "linear-gradient(140deg, rgba(224,68,106,0.22), rgba(224,68,106,0.06))",
-            }}
-          >
-            {initials}
-          </span>
+          {avatar ? (
+            <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-xl border border-line-strong transition-all duration-300 group-hover:border-ember/70 group-hover:ring-2 group-hover:ring-ember/30">
+              <Image
+                src={avatar}
+                alt={name}
+                width={36}
+                height={36}
+                className="h-full w-full object-cover"
+              />
+            </span>
+          ) : (
+            <span
+              aria-hidden="true"
+              className="grid h-9 w-9 place-items-center rounded-xl border border-line-strong font-mono text-[0.7rem] tracking-[0.06em] text-fg transition-colors duration-300 group-hover:border-ember/70 group-hover:text-ember-bright"
+              style={{
+                backgroundImage:
+                  "linear-gradient(140deg, rgba(224,68,106,0.22), rgba(224,68,106,0.06))",
+              }}
+            >
+              {initials}
+            </span>
+          )}
           <span className="hidden flex-col leading-tight sm:flex">
             <span className="text-sm font-medium text-fg">{name}</span>
             <span className="font-mono text-[0.6875rem] tracking-[0.06em] text-faint">
