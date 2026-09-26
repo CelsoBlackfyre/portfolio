@@ -501,4 +501,184 @@ export const independentProjects: Project[] = [
       ],
     },
   },
+  {
+    slug: "virgens-and-dragons",
+    name: "Virgens & Dragons",
+    art: "arena",
+    sourceKind: "local",
+    stack: [
+      "React 19",
+      "Three.js",
+      "TypeScript",
+      "Node.js",
+      "Docker",
+      "Tailwind CSS",
+      "Vite",
+    ],
+    kind: { en: "Tactical hex strategy game", pt: "Jogo de estratégia tática hexagonal" },
+    tagline: {
+      en: "A fantasy chess variant on a hexagonal board with 3D Three.js rendering and dual tactical views.",
+      pt: "Uma variante de xadrez de fantasia em tabuleiro hexagonal com renderização 3D Three.js e visão tática dupla.",
+    },
+    role: {
+      en: "Sole developer, covering game logic, 3D Three.js scene, tactical camera controls, and Docker orchestration",
+      pt: "Desenvolvedor único, responsável pela lógica do jogo, cena 3D com Three.js, controles de câmera tática e orquestração Docker",
+    },
+    status: { en: "Playable containerized build", pt: "Build jogável em contêineres" },
+    brief: {
+      en: "Virgens & Dragons (Dragon Chess) is a hexagonal grid strategy game where Gold and Obsidian factions vie for board dominance. Built with Three.js and React 19, the game features a central Dragon Lair, asymmetric faction abilities, and seamless toggling between an immersive perspective 3D board and an overhead 2D tactical view.",
+      pt: "Virgens & Dragons (Dragon Chess) é um jogo de estratégia em grade hexagonal onde as facções Ouro e Obsidiana disputam o controle do tabuleiro. Desenvolvido com Three.js e React 19, o jogo traz o Covil do Dragão central, habilidades assimétricas de facção e alternância suave entre tabuleiro 3D em perspectiva e visão tática 2D superior.",
+    },
+    build: {
+      en: [
+        "Custom hexagonal coordinate mathematics (axial and cube coordinates) enforcing valid movement, range calculation, and collision detection.",
+        "Three.js 3D rendering pipeline with procedural hex geometry, metallic PBR shaders, dynamic board lighting, and smooth camera transitions.",
+        "Dual perspective support: free-orbiting cinematic 3D perspective and an orthogonal 2D top-down tactical view for precise calculations.",
+        "Stateful match lobby with faction selection (Gold vs Obsidian), difficulty tuning, and turn-based move history.",
+        "Containerized microservices running web client and game logic in isolated Docker environments with automatic asset streaming.",
+      ],
+      pt: [
+        "Matemática de coordenadas hexagonais customizada (coordenadas axiais e cúbicas) garantindo movimentação válida, cálculo de alcance e colisão.",
+        "Pipeline de renderização Three.js 3D com geometria hexagonal procedural, shaders PBR metálicos, iluminação dinâmica e transições suaves de câmera.",
+        "Suporte a dupla perspectiva: 3D cinematográfico com órbita livre e visão tática ortogonal 2D do topo para cálculos de precisão.",
+        "Lobby de partida com seleção de facção (Ouro vs Obsidiana), ajuste de dificuldade e histórico de lances por turno.",
+        "Microsserviços em contêineres rodando cliente web e lógica de jogo em ambientes Docker isolados com streaming automático de assets.",
+      ],
+    },
+    highlights: {
+      en: [
+        {
+          title: "Hexagonal Strategy",
+          body: "6-directional tactical movement creates complex flanking dynamics impossible on standard 64-square chessboards.",
+        },
+        {
+          title: "Three.js 3D Engine",
+          body: "Real-time lighting, custom hex shaders, and smooth camera lerping bring physical weight to digital pieces.",
+        },
+        {
+          title: "Instant View Switch",
+          body: "Toggle anytime between a cinematic 3D isometric view and an overhead 2D tactical board without interrupting game state.",
+        },
+      ],
+      pt: [
+        {
+          title: "Estratégia Hexagonal",
+          body: "Movimentação tática em 6 direções cria dinâmicas complexas de flanqueamento impossíveis em tabuleiros tradicionais de 64 casas.",
+        },
+        {
+          title: "Engine 3D em Three.js",
+          body: "Iluminação em tempo real, shaders hexagonais customizados e interpolação de câmera conferem peso físico às peças digitais.",
+        },
+        {
+          title: "Alternância Instantânea de Câmera",
+          body: "Alterne a qualquer momento entre o 3D isométrico cinematográfico e a visão tática 2D superior sem interromper o estado da partida.",
+        },
+      ],
+    },
+    signals: {
+      en: [
+        "Three.js 3D Scene Graph",
+        "Hexagonal Grid Math (Cube/Axial)",
+        "React 19 & TypeScript",
+        "Multi-container Docker Stack",
+      ],
+      pt: [
+        "Grafo de Cena 3D Three.js",
+        "Matemática Hexagonal (Cúbica/Axial)",
+        "React 19 & TypeScript",
+        "Stack Docker Multi-contêiner",
+      ],
+    },
+  },
+  {
+    slug: "blackbank",
+    name: "BlackFyre Bank",
+    art: "vault",
+    sourceKind: "local",
+    stack: [
+      ".NET 10",
+      "C#",
+      "ASP.NET Core",
+      "React 19",
+      "PostgreSQL",
+      "Entity Framework Core",
+      "JWT",
+      "Tailwind CSS",
+      "Docker",
+    ],
+    kind: { en: "Simulated internet banking", pt: "Internet banking simulado" },
+    tagline: {
+      en: "A robust digital banking simulation with strict ledger guarantees, idempotency keys, and real-time balance reconciliation.",
+      pt: "Uma simulação bancária digital robusta com garantias estritas de ledger, chaves de idempotência e conciliação em tempo real.",
+    },
+    role: {
+      en: "Sole developer, covering .NET 10 Web API, domain money arithmetic, EF Core migrations, React client, and security hardening",
+      pt: "Desenvolvedor único, responsável pela API .NET 10, aritmética de valores monetários, migrations no EF Core, cliente React e segurança",
+    },
+    status: { en: "Running locally with .NET 10 & PostgreSQL", pt: "Rodando localmente com .NET 10 & PostgreSQL" },
+    brief: {
+      en: "BlackFyre Bank is an educational Brazilian internet banking application built with .NET 10 and React. It models double-entry accounting principles, atomic money transfers with client-generated idempotency keys, token-based authentication with sliding refresh cookies, rate limiting, and an intuitive financial dashboard tracking accounts, cash flow, and activity logs.",
+      pt: "BlackFyre Bank é uma aplicação educacional de internet banking brasileiro desenvolvida com .NET 10 e React. Ela modela princípios contábeis de partidas dobradas, transferências atômicas com chaves de idempotência geradas pelo cliente, autenticação por token com cookies de renovação deslizante, rate limiting e um painel financeiro intuitivo com contas, fluxo de caixa e histórico de transações.",
+    },
+    build: {
+      en: [
+        ".NET 10 minimal Web API backend structured with clean domain segregation: money transfer validation lives strictly in domain services, never in presentation controllers.",
+        "Atomic transactional transfers executed with PostgreSQL row-level locking to prevent race conditions and overdraft states.",
+        "Client-issued idempotency keys prevent duplicate debit operations across network retries or double clicks.",
+        "Dual-token security architecture: short-lived in-memory JWT access tokens combined with HTTP-only SameSite refresh cookies and IP rate limiting.",
+        "React single-page application with dark theme, real-time balance updates, account number copying, and interactive cash flow bar charts.",
+      ],
+      pt: [
+        "Back-end em .NET 10 Web API estruturado com segregação limpa de domínio: regras de transferência vivem exclusivamente nos serviços de domínio, nunca nos controllers.",
+        "Transferências atômicas transacionais com lock a nível de linha no PostgreSQL para evitar condições de corrida e saldos negativos.",
+        "Chaves de idempotência emitidas pelo cliente evitam débitos duplicados em caso de retentativas de rede ou cliques duplos.",
+        "Arquitetura de segurança com tokens duplos: JWT de curta duração em memória aliado a cookies HTTP-only SameSite para renovação e rate limiting por IP.",
+        "Single-page application em React com tema escuro, saldos em tempo real, cópia de número de conta e gráficos interativos de fluxo de caixa.",
+      ],
+    },
+    highlights: {
+      en: [
+        {
+          title: "Ledger Integrity",
+          body: "Every transfer writes immutable debit and credit ledger entries inside a strict database transaction, ensuring zero loss of funds.",
+        },
+        {
+          title: "Idempotent API Design",
+          body: "Unique idempotency tokens guarantee that re-submitting a transfer payload returns the existing receipt without debiting twice.",
+        },
+        {
+          title: "Financial Dashboard",
+          body: "High-contrast UI displaying checking and savings cards, 14-day cash flow histograms, and filterable transaction logs.",
+        },
+      ],
+      pt: [
+        {
+          title: "Integridade de Ledger",
+          body: "Cada transferência grava entradas imutáveis de débito e crédito dentro de uma transação estrita de banco, garantindo consistência total.",
+        },
+        {
+          title: "Design de API Idempotente",
+          body: "Tokens de idempotência únicos garantem que o reenvio de uma transferência retorne o recibo original sem debitar novamente.",
+        },
+        {
+          title: "Painel Financeiro",
+          body: "Interface de alto contraste exibindo cartões de conta corrente e poupança, histogramas de fluxo de caixa de 14 dias e histórico filtrável.",
+        },
+      ],
+    },
+    signals: {
+      en: [
+        ".NET 10 & ASP.NET Core",
+        "Entity Framework Core & PostgreSQL",
+        "Idempotent Transfers & Double Entry",
+        "React 19 & Phosphor Icons",
+      ],
+      pt: [
+        ".NET 10 & ASP.NET Core",
+        "Entity Framework Core & PostgreSQL",
+        "Transferências Idempotentes & Partidas Dobradas",
+        "React 19 & Phosphor Icons",
+      ],
+    },
+  },
 ];
